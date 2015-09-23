@@ -15,11 +15,11 @@ function [outputArgs] = mytiffwrite(outputFileName,imgdata)
 
 % $Author: base $	$Date: 2015/09/04 15:55:07 $	$Revision: 0.1 $
 % Copyright: HHMI 2015
-if 0
+if 1
     imwrite(imgdata(:, :, 1), outputFileName, 'WriteMode', 'overwrite',  'Compression','none');
-for K=2:length(In(1, 1, :))
-    imwrite(imgdata(:, :, K), outputFileName, 'WriteMode', 'append',  'Compression','none');
-end
+    for K=2:length(imgdata(1, 1, :))
+        imwrite(imgdata(:, :, K), outputFileName, 'WriteMode', 'append',  'Compression','none');
+    end
 else
     dims = size(imgdata);
     obj = Tiff(outputFileName,'w8');
@@ -29,10 +29,10 @@ else
     tagstruct.Photometric = Tiff.Photometric.RGB
     tagstruct.BitsPerSample = 16
     tagstruct.SamplesPerPixel = 2
-%     tagstruct.RowsPerStrip = 16
+    %     tagstruct.RowsPerStrip = 16
     tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky
     tagstruct.Software = 'MATLAB'
-%     tagstruct.SubIFD = 2  % required to create subdirectories
+    %     tagstruct.SubIFD = 2  % required to create subdirectories
     obj.setTag(tagstruct)
     
     
