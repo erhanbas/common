@@ -1,4 +1,4 @@
-function [Iout] = deployedtiffread(fileName,frames)
+function [Iout] = deployedtiffread(fileName,slices)
 %DEPLOYEDTIFFREAD Summary of this function goes here
 % 
 % [OUTPUTARGS] = DEPLOYEDTIFFREAD(INPUTARGS) Explain usage here
@@ -14,11 +14,11 @@ function [Iout] = deployedtiffread(fileName,frames)
 warning off
 info = imfinfo(fileName, 'tif');
 if nargin<2
-    frames = 1:length(info);
+    slices = 1:length(info);
 end
 wIm=info(1).Width;
 hIm=info(1).Height;
-numIm = numel(frames);
+numIm = numel(slices);
 Iout  = zeros(hIm, wIm, numIm,'uint16');
 
 for i=1:numIm
