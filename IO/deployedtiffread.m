@@ -22,7 +22,7 @@ numIm = numel(slices);
 Iout  = zeros(hIm, wIm, numIm,'uint16');
 
 for i=1:numIm
-    Iout(:,:,i) = imread(fileName,'Index',i,'Info',info);
+    Iout(:,:,i) = imread(fileName,'Index',slices(i),'Info',info);
 end
 
 end
