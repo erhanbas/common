@@ -19,8 +19,8 @@ shapetok = regexp(str, 'shape:(.\d+.\d+.\d+.)', 'tokens');
 dimstok = regexp(str, 'dims:(.\d*.\d*.\d*.\d*.)', 'tokens');
 typetok = regexp(str, 'type:(\w{3})', 'tokens');
 pathtok = regexp(str, 'path:(\/.*?\d{5})', 'tokens');
-% tformtok = regexp(str, 'transform:(\[.*?])', 'tokens');
-tformtok = regexp(str, 'homography:(\[.*?])', 'tokens');
+tformtok = regexp(str, 'transform:(\[.*?])', 'tokens');
+% tformtok = regexp(str, 'homography:(\[.*?])', 'tokens');
 
 Ntiles = numel(oritok);
 

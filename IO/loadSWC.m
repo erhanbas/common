@@ -1,4 +1,4 @@
-function [C,offset,color,header] = loadSWC(swcfile)
+function [C,offset,color,header] = loadSWC(swcfile,delim)
 %LOADSWC Summary of this function goes here
 % 
 % [OUTPUTARGS] = LOADSWC(INPUTARGS) Explain usage here
@@ -28,16 +28,30 @@ while ischar(tline)
     else
         break
     end
-    if strcmp(tline(1:9),'# OFFSET ')
+    if nargout>1 & strcmp(tline(1:9),'# OFFSET ')
         offset =cellfun(@str2double,strsplit(deblank(tline(10:end))));
-    elseif strcmp(tline(1:8),'# COLOR ')
+    elseif nargout>2 & strcmp(tline(1:8),'# COLOR ')
         color =cellfun(@str2double,strsplit(deblank(tline(9:end)),','));
     end
         tline = fgets(fid);
 end
 fclose(fid);
 %%
-fid = fopen(swcfile);
-C = textscan(fid, '%d%d%f%f%f%f%d','HeaderLines',skipline,'Delimiter',' ');
-fclose(fid);
+if nargin>1
+    fid = fopen(swcfile);
+    for i=1:skipline
+        tline = fgets(fid);
+    end
+    C = [];
+    tline = fgets(fid);
+    while ischar(tline)
+        C(end+1,:) = str2num(tline);
+        tline = fgets(fid);
+    end
+    fclose(fid);
+else
+    fid = fopen(swcfile);
+    C = textscan(fid, '%d%d%f%f%f%f%d','HeaderLines',skipline,'Delimiter',' ');
+    fclose(fid);
+end
 end
