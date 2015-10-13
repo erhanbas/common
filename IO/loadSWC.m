@@ -1,12 +1,13 @@
-function [C,offset,color,header] = loadSWC(swcfile,delim)
-%LOADSWC Summary of this function goes here
-% 
+function [C,offset,color,header] = loadSWC(swcfile)
+%LOADSWC reads a JW formatted swc file and return color/header and data
+%fields
+%
 % [OUTPUTARGS] = LOADSWC(INPUTARGS) Explain usage here
-% 
-% Examples: 
-% 
+%
+% Examples:
+%
 % Provide sample usage code here
-% 
+%
 % See also: List related files here
 
 % $Author: base $	$Date: 2015/08/14 12:09:52 $	$Revision: 0.1 $
@@ -33,25 +34,19 @@ while ischar(tline)
     elseif nargout>2 & strcmp(tline(1:8),'# COLOR ')
         color =cellfun(@str2double,strsplit(deblank(tline(9:end)),','));
     end
-        tline = fgets(fid);
+    tline = fgets(fid);
 end
 fclose(fid);
-%%
-if nargin>1
-    fid = fopen(swcfile);
-    for i=1:skipline
-        tline = fgets(fid);
-    end
-    C = [];
+
+fid = fopen(swcfile);
+for i=1:skipline
     tline = fgets(fid);
-    while ischar(tline)
-        C(end+1,:) = str2num(tline);
-        tline = fgets(fid);
-    end
-    fclose(fid);
-else
-    fid = fopen(swcfile);
-    C = textscan(fid, '%d%d%f%f%f%f%d','HeaderLines',skipline,'Delimiter',' ');
-    fclose(fid);
 end
+C = [];
+tline = fgets(fid);
+while ischar(tline)
+    C(end+1,:) = str2num(tline);
+    tline = fgets(fid);
+end
+fclose(fid);
 end
