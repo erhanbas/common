@@ -16,7 +16,9 @@ function [idxTiles,ia,ic] = getTileIdx(frames,swcData,subFactor)
 % $Author: base $	$Date: 2015/09/16 14:06:39 $	$Revision: 0.1 $
 % Copyright: HHMI 2015
 
-
+if nargin<3
+    subFactor = 0;
+end
 % create branch objects
 link = double(swcData(:,[1,7]));
 if any(link(:,end)<0)

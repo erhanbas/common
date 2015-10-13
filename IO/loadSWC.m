@@ -20,6 +20,7 @@ fid = fopen(swcfile);
 tline = fgets(fid);
 skipline = 0;
 t = 1;
+l = 0;
 while ischar(tline)
     % assumes that all header info is at the top of the swc file
     if strcmp(tline(1), '#')
@@ -27,7 +28,10 @@ while ischar(tline)
         header{t} = tline;
         t = t+1;
     else
-        break
+        l=l+1;
+        tline = fgets(fid);
+        continue;
+        %break
     end
     if nargout>1 & strcmp(tline(1:9),'# OFFSET ')
         offset =cellfun(@str2double,strsplit(deblank(tline(10:end))));
@@ -42,10 +46,12 @@ fid = fopen(swcfile);
 for i=1:skipline
     tline = fgets(fid);
 end
-C = [];
+C = zeros(l,7);
 tline = fgets(fid);
+tl = 1;
 while ischar(tline)
-    C(end+1,:) = str2num(tline);
+    C(tl,:) = str2num(tline);
+    tl = tl+1;
     tline = fgets(fid);
 end
 fclose(fid);
