@@ -1,4 +1,4 @@
-function [outputArgs] = plotRects(rects)
+function [outputArgs] = plotRects(rects,fig)
 %plotRects plot rectangle array. Helper function for neuron crawler
 %
 % [OUTPUTARGS] = plotRects(INPUTARGS) Explain usage here
@@ -34,7 +34,11 @@ for i=1:size(edges,1)
     C = [C;Col];
 end
 X = X';
-h = figure(100);
+if nargin>1
+    h = figure(fig);
+else
+    h = figure;
+end
 % set(h,'Position',[-3758 1 1879 2053])
 view([20,34])
 if 0
