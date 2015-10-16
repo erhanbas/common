@@ -1,4 +1,4 @@
-function [L] = extractBranches(edge,numNodes)
+function [L] = extractBranches(link,numNodes)
 %EXTRACTBRANCHES Summary of this function goes here
 % 
 % [OUTPUTARGS] = EXTRACTBRANCHES(INPUTARGS) Explain usage here
@@ -12,14 +12,13 @@ function [L] = extractBranches(edge,numNodes)
 % $Author: base $	$Date: 2015/08/17 12:48:27 $	$Revision: 0.1 $
 % Copyright: HHMI 2015
 
-if size(edge,1)==size(edge,2) & size(edge,1)>2 % square adjecency matrix
-    [link(:,1),link(:,2)] = find(edge);
-else
-    link = edge;
-end
 numNodes = max(link(:));
 % get the branch nodes
 eS = sparse(link(:,1),link(:,2),1,numNodes,numNodes);
+% %%
+% [disc, pred, closed] = graphtraverse(eS', 1)
+% 
+% %%
 % find branch points
 nodeType = sum(eS);
 nodeType(nodeType>2) = 2;

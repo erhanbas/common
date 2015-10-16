@@ -17,6 +17,5 @@ function [hfig] = figure_()
 % Copyright: HHMI 2015
 
 hfig = figure;
-subplot([0 0 1 1])
-
+subplot('position', [0 0 1 1])
 end

@@ -25,29 +25,33 @@ if any(link(:,end)<0)
     % delete the root node
     link(link(:,2)<0,:)=[];
 end
-numNodes = length(link);
-L=extractBranches(link,numNodes);
+numNodes = max(link(:,1));
 %%
-% grab samples from each branch
-subsampledTrace =[];
-for idx = 1:length(L)
-    set = L(idx).set;
-    if subFactor>0
-        subsampledTrace = [subsampledTrace set(1:round(length(set)/subFactor):end)];
-    else
-        subsampledTrace = [subsampledTrace set(1:end)];
-    end
-end
-subsampledTrace = unique(subsampledTrace);
-subSwcData = swcData(subsampledTrace,:);
-centFrames=squeeze(mean(frames.bbox(:,:,:),1));
+% % grab samples from each branch
+% if 0
+%     L=extractBranches(link,numNodes);
+%     subsampledTrace =[];
+%     for idx = 1:length(L)
+%         set = L(idx).set;
+%         if subFactor>0
+%             subsampledTrace = [subsampledTrace set(1:round(length(set)/subFactor):end)];
+%         else
+%             subsampledTrace = [subsampledTrace set(1:end)];
+%         end
+%     end
+%     subsampledTrace = unique(subsampledTrace);
+%     subSwcData = swcData(subsampledTrace,:);
+% else
+%     subSwcData = swcData;
+% end
+% nSub = length(subsampledTrace);
 
+centFrames=squeeze(mean(frames.bbox(:,:,:),1));
 numFrames=size(centFrames,2);
 L1 = ones(1,numFrames);
-nSub = length(subsampledTrace);
-hitTable = zeros(1,nSub);
-for idx = 1:nSub
-    locSWC = subSwcData(idx,3:5);
+hitTable = zeros(1,numNodes);
+for idx = 1:numNodes
+    locSWC = swcData(idx,3:5);
     dum = (locSWC');
     [minval,minidx] = min(sum((centFrames-dum*L1).^2));
     hitTable(idx) = minidx;
