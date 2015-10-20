@@ -51,7 +51,12 @@ else
 end
 %%
 pos=get(0,'MonitorPositions');
-h = figure;
+try
+    h = figure_;
+catch
+    h = figure;
+    subplot('position', [0 0 1 1])
+end
 imshow(ImOut,[])
 set(h,'Position',[round(pos(2,1)/2)-10 1 abs(round(pos(2,3))/2) abs(round(pos(2,4)))])
 %%

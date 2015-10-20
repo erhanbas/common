@@ -3,7 +3,7 @@
 % MATLAB vectorized implementation of the algorithm by
 % Ta-Chih Lee, Rangasami L. Kashyap and Chong-Nam Chu
 % "Building skeleton models via 3-D medial surface/axis thinning algorithms."
-% Computer Vision, Graphics, and Image Processing, 56(6):462–478, 1994.
+% Computer Vision, Graphics, and Image Processing, 56(6):462ï¿½478, 1994.
 %
 % Inspired by the ITK implementation by Hanno Homann
 % http://hdl.handle.net/1926/1292
@@ -16,11 +16,14 @@
 
 function skel = Skeleton3D(img,spare)
 
-disp('computing medial axis............................');
+%disp('computing medial axis............................');
 
 % pad volume with zeros to avoid edge effects
 skel=padarray(img,[1 1 1]);
 
+if isempty(spare)
+    nargin =1;
+end
 if(nargin==2)
     spare=padarray(spare,[1 1 1]);
 end;
@@ -44,7 +47,7 @@ unchangedBorders = 0;
 
 while( unchangedBorders < 6 )  % loop until no change for all six border types
     unchangedBorders = 0;
-    parfor currentBorder=1:6 % loop over all 6 directions
+    for currentBorder=1:6 % loop over all 6 directions
         cands=zeros(width,height,depth);
         switch currentBorder
             case 4,
@@ -149,13 +152,12 @@ while( unchangedBorders < 6 )  % loop until no change for all six border types
         if( noChange )
             unchangedBorders = unchangedBorders + 1;
         end;
-        fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b');
-        fprintf('removed %3d%% voxels',round(100*(l_orig-length(find(skel(:))))/l_orig));
-        
+%         fprintf('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b');
+%         fprintf('removed %3d%% voxels',round(100*(l_orig-length(find(skel(:))))/l_orig));
     end;
 end;
 
-fprintf('\n');
+% fprintf('\n');
 
 % get rid of padded zeros
 skel = skel(2:end-1,2:end-1,2:end-1);
