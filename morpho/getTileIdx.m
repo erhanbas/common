@@ -1,4 +1,4 @@
-function [idxTiles,ia,ic] = getTileIdx(frames,swcData,subFactor)
+function [idxTiles,ia,ic] = getTileIdx(frames,swcData)
 %GETTILEIDX Returns id of frames that overlaps with swcData
 % 
 % [OUTPUTARGS] = GETTILEIDX(INPUTARGS) Explain usage here
@@ -16,16 +16,13 @@ function [idxTiles,ia,ic] = getTileIdx(frames,swcData,subFactor)
 % $Author: base $	$Date: 2015/09/16 14:06:39 $	$Revision: 0.1 $
 % Copyright: HHMI 2015
 
-if nargin<3
-    subFactor = 0;
-end
-% create branch objects
-link = double(swcData(:,[1,7]));
-if any(link(:,end)<0)
-    % delete the root node
-    link(link(:,2)<0,:)=[];
-end
-numNodes = max(link(:,1));
+% % create branch objects
+% link = double(swcData(:,[1,7]));
+% if any(link(:,end)<0)
+%     % delete the root node
+%     link(link(:,2)<0,:)=[];
+% end
+% numNodes = max(link(:,1));
 %%
 % % grab samples from each branch
 % if 0
@@ -46,6 +43,7 @@ numNodes = max(link(:,1));
 % end
 % nSub = length(subsampledTrace);
 
+numNodes = size(swcData,1);
 centFrames=squeeze(mean(frames.bbox(:,:,:),1));
 numFrames=size(centFrames,2);
 L1 = ones(1,numFrames);

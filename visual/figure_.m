@@ -1,4 +1,4 @@
-function [hfig] = figure_()
+function [hfig] = figure_(idx)
 %FIGURE_ Summary of this function goes here
 % 
 % [OUTPUTARGS] = FIGURE_(INPUTARGS) Explain usage here
@@ -15,7 +15,11 @@ function [hfig] = figure_()
 
 % $Author: base $	$Date: 2015/10/16 17:51:23 $	$Revision: 0.1 $
 % Copyright: HHMI 2015
-
-hfig = figure;
+if nargin<1
+    hfig = figure;
+else
+    hfig = figure(idx);
+end
 subplot('position', [0 0 1 1]);
+
 end

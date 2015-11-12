@@ -44,7 +44,7 @@ for i=1:numDims
     en = min(dims(i),st+(blockSize(i)-1));
     BB{i} = [st(:) en(:)];
 end
-numb = cellfun(@length,BB);
+numb = cellfun(@(x) size(x,1),BB);
 if length(numb)==2
     numb = [numb 1];
 end
