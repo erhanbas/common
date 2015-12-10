@@ -41,7 +41,11 @@ for i=1:size(edges,1)
 end
 X = X';
 if nargin>1
-    h = figure(fig);
+    if fig
+        h = figure(fig);
+    else
+        
+    end
 else
     h = figure;
 end
@@ -51,8 +55,8 @@ if 0
     plot3(X(:,1),X(:,2),X(:,3)),
 else
     for i=1:size(X,1)/3
-        line(X((i-1)*3+1:i*3,1),X((i-1)*3+1:i*3,2),X((i-1)*3+1:i*3,3),'Color',[0 0 0]),
-%         line(X((i-1)*3+1:i*3,1),X((i-1)*3+1:i*3,2),X((i-1)*3+1:i*3,3),'Color',C(i*3,:)),
+%         line(X((i-1)*3+1:i*3,1),X((i-1)*3+1:i*3,2),X((i-1)*3+1:i*3,3),'Color',[0 0 0]),
+        line(X((i-1)*3+1:i*3,1),X((i-1)*3+1:i*3,2),X((i-1)*3+1:i*3,3),'Color',C(i*3,:)),
     end
 end
 axis equal tight,
