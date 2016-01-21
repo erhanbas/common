@@ -80,27 +80,58 @@ A_ = A;
 A_(find(triu(A_,0)))=0;
 
 %%
-% %%
-% idpar = A_*(1:size(A_,1))'; % simple graph theory: feature of adjacency matrix
-% 
-% %%
 ly = 1:length(Y);%find(Y>1);
-% iC = randperm(length(ly));
-% Io = zeros(dims);
 clear Eout
 for ii=1:length(ly)
     %%
     subidx = find(C==ly(ii));
     Asub = A_(subidx,subidx);
     leafs = find(sum(Asub,2)==0);%find(sum(max(Asub,Asub'))==1,1);
-    [dist,path,pred] = graphshortestpath(Asub,leafs,'directed','false');
+    [dist,path,pred] = graphshortestpath(Asub,leafs(1),'directed','false');
+%     [sorteddist,idxdist]=sort(dist);
+%     Asub_ = Asub(idxdist,idxdist);
+%     [dist,path,pred] = graphshortestpath(Asub_+Asub_',1);
+    
+%     % sort pred to make it lower triu
+%     currind=0;
+%     while currind<max(pred)+1
+%         inds=find(pred==currind);
+%         eo{currind+1} = inds
+%         
+%         
+%     end
+%     for jj=1:max()
+%     [sortedpred,sortedindx] = sort(pred);
+%     eout = [([1:size(Asub,1)]') ([1:size(Asub,1)]')-1];
+%     eout(eout(:,2)==0,:) = [];
+%     % permute subs and indicies
+%     subidx = subidx(sortedindx)
     % create an affinity map
     eout = [([1:size(Asub,1)]') (pred(:))];
     eout(eout(:,2)==0,:) = [];
 %     Eout{ii} =subidx(sort(eout,2,'descend'))';
+    %if any(any(subidx(eout)'==14820));ii,end
     Eout{ii} =subidx(eout)';
 end
+% make sure that graph is lower triangular
+subs_ = subs;
 edgesout = [Eout{:}]';
+%%
+% while true
+%     idx = find(edgesout(:,1)<edgesout(:,2),1);
+%     if isempty(idx)
+%         break
+%     end
+%     [aa] = edgesout(idx,:);
+%     % flip axis
+%     edgesout(idx,:) = aa([2 1]);
+%     tmp=subs_(aa(1),:);
+%     subs_(aa(1),:) = subs_(aa(2),:);
+%     subs_(aa(2),:) = tmp;
+% end
+
+
+%%
 % Io = Io(2:end-1,2:end-1,2:end-1);
 %
 Aout = sparse(edgesout(:,1),edgesout(:,2),1,max(edgesout(:)),max(edgesout(:)));
@@ -109,9 +140,9 @@ Aout = sparse(edgesout(:,1),edgesout(:,2),1,max(edgesout(:)),max(edgesout(:)));
 intree.dA = Aout;
 intree.R = ones(size(A_,1),1);
 intree.D = ones(size(A_,1),1);
-intree.X = subs(:,1)-1; % subtract padsize
-intree.Y = subs(:,2)-1; % subtract padsize
-intree.Z = subs(:,3)-1; % subtract padsize
+intree.X = subs_(:,1)-1; % subtract padsize
+intree.Y = subs_(:,2)-1; % subtract padsize
+intree.Z = subs_(:,3)-1; % subtract padsize
 
 
 

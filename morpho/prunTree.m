@@ -1,4 +1,4 @@
-function [inupdate,deleteThese] = prunTree(in_,sizeThr,ani)
+function [inupdate,deleteThese] = prunTree(in_,lengthThr,res)
 %PRUNTREE Pruns a tree with a given length threshold
 % 
 % [OUTPUTARGS] = PRUNTREE(INPUTARGS) Explain usage here
@@ -15,12 +15,9 @@ function [inupdate,deleteThese] = prunTree(in_,sizeThr,ani)
 
 % $Author: base $	$Date: 2015/10/28 10:42:45 $	$Revision: 0.1 $
 % Copyright: HHMI 2015
-if nargin<3
-    ani = [1 1 1];
-end
 
 A = in_.dA;
-XYZ = [in_.X*ani(1) in_.Y*ani(1) in_.Z*ani(1)];
+XYZ = [in_.X*res(1) in_.Y*res(2) in_.Z*res(3)];% in (um)
 [L,list] = getBranches(A);
 numBranches = length(L);
 % find leaf branches
@@ -31,7 +28,7 @@ for ii=1:numBranches
     Liiset = L(ii).set;
     if ~isempty(Liiset) & any(termnodes==Liiset(1)) %& length(Liiset)<sizeThr
         lenBranch = sum(sqrt(sum(diff(XYZ([Liiset L(ii).parentnode],:)).^2,2)));
-        if lenBranch<sizeThr
+        if lenBranch<lengthThr
             leafbranches(ii) = 1;
             deleteThese = [deleteThese L(ii).set];
         end
