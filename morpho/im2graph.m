@@ -15,6 +15,7 @@ function [intree] = im2graph(IM,debug)
 
 % $Author: base $	$Date: 2015/10/20 10:11:33 $	$Revision: 0.1 $
 % Copyright: HHMI 2015
+intree = [];
 if nargin<2
     debug = 0;
 end
@@ -40,6 +41,7 @@ for i=1:nout
 end
 idxneig = out*k';
 idxneig((numel(idxneig)+1)/2)=[];
+
 %%
 %Create affinity matrix
 idx = find(IM);
@@ -47,10 +49,10 @@ if numel(IM)/2<length(idx)
     warning('dense image, might take sime time to build graph. Consider to make input IM sparse')
 end
 
-%%
+1
 clear E
 it = 1;
-
+IM = skel;
 for i=idx(:)'
     if debug
         if ~rem(it,max(1,round(numel(idx)/10)))
@@ -64,10 +66,13 @@ for i=idx(:)'
     it = it+1;
 end
 edges = [E{:}]';
+%%
 [keepthese,ia,ic] = unique(edges(:));
 [subs(:,2),subs(:,1),subs(:,3)] = ind2sub(dims,keepthese);
 edges_ = reshape(ic,[],2);
-
+if isempty(edges_)
+    return
+end
 %%
 % permute edges
 A = sparse(edges_(:,1),edges_(:,2),1,max(edges_(:)),max(edges_(:)));

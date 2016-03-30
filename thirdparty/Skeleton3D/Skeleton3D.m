@@ -17,7 +17,15 @@
 function skel = Skeleton3D(img,spare)
 
 %disp('computing medial axis............................');
-
+% @032216:erhan:check if input is empty
+if ~any(img(:))
+    if islogical(img)
+        skel=false(size(img));
+    else
+        skel=zeros(size(img),class(img));
+    end
+    return
+end
 % pad volume with zeros to avoid edge effects
 skel=padarray(img,[1 1 1]);
 

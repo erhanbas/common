@@ -33,7 +33,8 @@ numDims = ndims(I{1});
 % outSize = [dimsori nbins];
 numChannel = length(I);
 for i=1:numChannel
-    I{i} = padarray(I{i},h*ones(1,numDims),0,'both');
+    % I{i} = padarray(I{i},h*ones(1,numDims),0,'both');
+    I{i} = padarray(I{i},h*ones(1,numDims),'symmetric','both');
 end
 dims = size(I{i});
 %%
@@ -68,9 +69,15 @@ if parallel
             OUT_{i} = feval(blockfun,Isub{1},blockfunarg);
         end
     end
+    if isdeployed
+        poolobj = gcp('nocreate');
+        delete(poolobj)
+    end
 else
     for i=1:numblocks
-        disp(['running: ',num2str(i), ' out of ', num2str(numblocks)])
+        if ~rem(i,round(numblocks/10))&0
+            disp(['running: ',num2str(i), ' out of ', num2str(numblocks)])
+        end
         % crop image
         Isub = cropImage(I,bbox(i,:));
         % run the function for this block
@@ -79,7 +86,9 @@ else
         else
             OUT_{i} = feval(blockfun,Isub{1},blockfunarg);
         end
-        disp(['finished',num2str(i)])
+        if ~rem(i,round(numblocks/10))&0
+            disp(['finished',num2str(i)])
+        end
     end
 end
 %%
@@ -88,7 +97,11 @@ if iscell(OUT_{1})
     [outputArgs{numOut}] = deal(zeros(dimsori));
 else
     numOut = 1;
-    [outputArgs] = deal(zeros(dimsori));
+    if islogical(I{1})
+        [outputArgs] = deal(false(dimsori));
+    else
+        [outputArgs] = deal(zeros(dimsori,class(I{1})));
+    end
 end
 % stitch back to original size
 for i=1:numblocks
