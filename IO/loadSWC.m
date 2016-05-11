@@ -5,6 +5,9 @@ function [C,offset,color,header] = loadSWC(swcfile)
 % [OUTPUTARGS] = LOADSWC(INPUTARGS) Explain usage here
 %
 % Examples:
+%     [swcData,offset,color, header] = loadSWC(swcfile);
+%     swcData(:,3:5) = swcData(:,3:5) + ones(size(swcData,1),1)*offset;
+%     swcData(:,3:5) = swcData(:,3:5)*scale;
 %
 % Provide sample usage code here
 %
