@@ -60,6 +60,13 @@ if tline(1)=='#' % header skip
     end
 else
     fd = strsplit(tline,'=');
+    if length(fd)<2
+        % check for : as splitter
+        fd = strsplit(tline,':');
+    end
+    if length(fd)<2
+        error('Couldnt find any argument with "=" or ":"')
+    end
     fd_sub = strsplit(strtrim(fd{2}),' ');
     if length(fd_sub)>2
         out.(deblank(fd{1})) = fd_sub;
