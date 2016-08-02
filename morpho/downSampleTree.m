@@ -15,7 +15,6 @@ function [outtree,selectedIdx] = downSampleTree(intree,opt)
 
 % $Author: base $	$Date: 2016/03/29 17:01:13 $	$Revision: 0.1 $
 % Copyright: HHMI 2016
-
 [L,list] = getBranches(intree.dA);
 XYZ = [intree.X intree.Y intree.Z];
 R = intree.R;
@@ -38,12 +37,13 @@ for ii=1:length(L)
     set_ii = set_ii(end:-1:1);
     % get length of branch
     xyz = XYZ(set_ii,:);
-    xyz = xyz.*(ones(size(xyz,1),1)*opt.voxres);
-    uni = 0;
-    if uni
-        p2 = sum((xyz(1:end-1,:)-xyz(2:end,:)).^2,2);
-    else
-        p2 = (xyz(1:end-1,:)-xyz(2:end,:)).^2*[1;1;50];
+    xyz = xyz.*(ones(size(xyz,1),1)*opt.params.voxres);
+    switch opt.sampling
+        case 'uni'
+            p2 = sum((xyz(1:end-1,:)-xyz(2:end,:)).^2,2);
+        case 'curv'
+            p2 = (xyz(1:end-1,:)-xyz(2:end,:)).^2*[1;1;50];
+        otherwise
     end
     dists = sqrt(p2); % resolution is 0.33 um per pixel => multiply with 3 to make it unit um
     cdist = cumsum(dists);
