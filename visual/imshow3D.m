@@ -56,11 +56,11 @@ if strcmp(type,'all')
     end
     title('3')
 elseif strcmp(type,'depth')
-    subplot(111)
+    %subplot(111)
     [I3,locs] = max(In,[],3);
     imshow(uint8(squeeze(locs))-1,[]),
     colormap([[0 0 0];jet])
-    colorbar
+    %colorbar
 else
     %     figure(),
     subplot(111)
