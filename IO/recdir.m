@@ -45,6 +45,12 @@ if level == args.level
     for ii=1:length(myfiles)
         fprintf(args.fid,'%s\n',fullfile(inputfolder,myfiles(ii).name));
     end
+%     % append to xls file
+%     for ii=1:length(myfiles)
+%         if myfiles(ii).bytes~=789753938
+%             fprintf(args.fid,'%s\n',fullfile(inputfolder,myfiles(ii).name));
+%         end
+%     end
     %return
 else
     % recursion
