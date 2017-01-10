@@ -17,9 +17,13 @@ function [branch,list] = getBranches(G)
 % Copyright: HHMI 2015
 
 % critical nodes
-branchnodes = find(sum(G)>1);
-termnodes = find(sum(G)==0);
 rootnode = find(sum(G,2)==0);
+branchnodes = find(sum(G)>1);
+% root is branch if it splits into 3
+if sum(G(:,rootnode))<3
+    branchnodes = setdiff(branchnodes,rootnode);
+end
+termnodes = find(sum(G)==0);
 % from all branch and termnodes, get segmentsuntill another critical point
 % is found
 criticalset = [rootnode, branchnodes, termnodes];
