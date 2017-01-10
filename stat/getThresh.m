@@ -50,6 +50,6 @@ if numel(maxarg)
     threshold = maxarg(1);
 else
     maxIn = max(In(:));
-    threshold = graythresh(In/maxIn)*maxIn;
+    threshold = max(1,graythresh(In/maxIn)*maxIn); % for heavy peaked distributions, OTSU returns 0
 end
 end
