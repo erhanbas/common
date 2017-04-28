@@ -43,7 +43,11 @@ if level == args.level
     myfiles = dir([inputfolder,'/*.',args.ext]);
     % append to xls file
     for ii=1:length(myfiles)
-        fprintf(args.fid,'%s\n',fullfile(inputfolder,myfiles(ii).name));
+        if 0&exist(fullfile(inputfolder,[myfiles(ii).name(1:end-3),'.tif']),'file')
+            
+        else
+            fprintf(args.fid,'%s\n',fullfile(inputfolder,myfiles(ii).name));
+        end
     end
 %     % append to xls file
 %     for ii=1:length(myfiles)
