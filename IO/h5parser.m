@@ -1,4 +1,4 @@
-function [brainSize,RR,chunk_dims,cropSize,rank] = h5parser(myh5,myh5prob)
+function [brainSize,RR,chunk_dims,rank] = h5parser(myh5,myh5prob)
 %H5PARSER retrive related fields from a large h5 file. using h5info is
 %exteremly slow, especialy if the file is hosted on a shared drive
 %
