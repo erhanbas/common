@@ -71,7 +71,7 @@ filename = pathfile; fid = fopen(filename); targetlist = textscan(fid,'%s','Deli
 mynames = cell(1,length(targetlist));for ii=1:length(targetlist); mynames{ii} = targetlist{ii}(length(inputfolder)+1:end); end
 
 %% curation
-util.curationH5(inputfolder,outputtfolder)
+% curationH5(inputfolder,outputtfolder)
 
 %% missing files
 if 0
