@@ -34,7 +34,8 @@ if args.ext(1) == '.'
 end
 dirinfo = dir(inputfolder);
 dirinfo(~[dirinfo.isdir]) = [];  %remove non-directories
-tf = ismember( {dirinfo.name}, {'.', '..'});
+tf = cellfun(@(x) x(1)=='.',{dirinfo.name}); %remove hidded and parent folders
+% ismember( {dirinfo.name}, {'.', '..','.log','.backup'});
 dirinfo(tf) = [];  %remove current and parent directory.
 
 if isfield(args,'pattern')
