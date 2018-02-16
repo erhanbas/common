@@ -36,6 +36,17 @@ dirinfo = dir(inputfolder);
 dirinfo(~[dirinfo.isdir]) = [];  %remove non-directories
 tf = ismember( {dirinfo.name}, {'.', '..'});
 dirinfo(tf) = [];  %remove current and parent directory.
+
+if isfield(args,'pattern')
+    matches = regexp({dirinfo(:).name},args.pattern);
+    keep_these = zeros(1,length(dirinfo));
+    for ifold = 1:length(matches)
+        if matches{ifold} & matches{ifold}(1)==1
+            keep_these(ifold) = 1;
+        end
+    end
+    dirinfo(~keep_these) = []; %remove any folder that doesn't follow pattern
+end
 %%
 if level == args.level
     % search file
