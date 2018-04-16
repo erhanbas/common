@@ -1,4 +1,4 @@
-function h = gplot3(A, xyz, varargin)
+function h = gplot3_box(A, xyz, bbox, varargin)
 %GPLOT Plot graph (nodes and edges).
 %   GPLOT(A, xyz) plots the graph specified by the adjacency matrix,
 %   A, and the n-by-3 coordinate array, xyz.
@@ -10,7 +10,6 @@ function h = gplot3(A, xyz, varargin)
 %   
 %   h = GPLOT(A, xyz, 'LineWidth', 5, ...) also takes arbitrary arguments
 %   for line properties
-bbox = [];
     % If no arguments given, then run buckminster sphere example
     if nargin == 0
         [A, xyz] = bucky;
@@ -19,6 +18,10 @@ bbox = [];
     % If only one argument given, throw error.
     if nargin == 1
         error('Please provide an adjacency matrix and coordinate array');
+    end
+    
+    if nargin <3
+        bbox=[];
     end
 
     % Returns i and j, lists of connected nodes
@@ -36,9 +39,9 @@ bbox = [];
 
     % Filter
     if ~isempty(bbox)
-        bbox = [20066+[-100 100] 10298+[-100 100] 2959+[-100 100]];
+        %bbox = [20066+[-100 100] 10298+[-100 100] 2959+[-100 100]];
         it = X>bbox(1)&X<bbox(2)&Y>bbox(3)&Y<bbox(4)&Z>bbox(5)&Z<bbox(6);
-        it = all(it);
+        it = all(it(1:2,:));
         X = X(:,it);
         Y = Y(:,it);
         Z = Z(:,it);
@@ -50,12 +53,12 @@ bbox = [];
     Z = Z(:);
     
     % If only two arguments, then plot as is
-    if nargin == 0 || nargin == 2
+    if nargin == 0 || nargin <4
         h = plot3(X, Y, Z);
     end
     
     % If linespec given, then use it
-    if nargin >= 3
+    if nargin >= 4
         if mod(nargin, 2) == 1
             h = plot3(X, Y, Z, varargin{1});
             start = 2;
