@@ -17,7 +17,8 @@ function [C,offset,color,header] = loadSWC(swcfile)
 % Copyright: HHMI 2015
 
 %% parse a swc file
-[color,offset,header] = deal([0 0 0]);
+[color,offset] = deal([0 0 0]);
+header = cell(1);
 
 fid = fopen(swcfile);
 tline = fgets(fid);
