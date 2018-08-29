@@ -57,7 +57,7 @@ function [Iout,whatScale,Voutx,Vouty,Voutz]=FrangiFilter3D(I,options)
 
 % Constants vesselness function
 
-defaultoptions = struct('FrangiScaleRange', [1 10], 'FrangiScaleRatio', 2, 'FrangiAlpha', 0.5, 'FrangiBeta', 0.5, 'FrangiC', 500, 'verbose',false,'BlackWhite',false);
+defaultoptions = struct('FrangiScaleRange', [1 10], 'FrangiScaleRatio', 2, 'FrangiAlpha', 0.1, 'FrangiBeta', 0.9, 'FrangiC', 1500, 'verbose',false,'BlackWhite',false);
 
 % Process inputs
 if(~exist('options','var')), 
