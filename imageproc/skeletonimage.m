@@ -1,4 +1,4 @@
-function [skel,A,subs_,edges_] = skeletonimage(Io,opt)
+function [skel,A,subs_,edges_,weights_] = skeletonimage(Io,opt)
 %SKELETONIMAGE Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -64,16 +64,7 @@ radskel = double(bIo.*single(skel));
 % get the edge pairs
 dims = size(skel);
 skelinds = find(skel);
-
-if isempty(skelinds)
-    % touch file
-    if isdeployed |1
-        inds = [];
-        %         fileID = fopen(outfile,'w');
-        %         fclose(fileID);
-    end
-    return
-end
+if isempty(skelinds);warning('Empty volume');return;end
 %%
 nout = length(dims);
 %Compute linear indices
