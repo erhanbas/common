@@ -20,9 +20,9 @@ function [Iout,whatScale,Voutx,Vouty,Voutz]=FrangiFilter3D(I,options)
 %					   the threshold between eigenvalues of noise and 
 %					   vessel structure. A thumb rule is dividing the 
 %					   the greyvalues of the vessels by 4 till 6, default 500;
-%       .BlackWhite : Detect black ridges (default) set to true, for
-%                       white ridges set to false.
-%       .verbose : Show debug information, default true
+%       .BlackWhite : Detect black ridges set to true, for
+%                       white ridges set to false (default).
+%       .verbose : Show debug information, default false
 %
 % outputs,
 %   J : The vessel enhanced image (pixel is the maximum found in all scales)
@@ -57,7 +57,7 @@ function [Iout,whatScale,Voutx,Vouty,Voutz]=FrangiFilter3D(I,options)
 
 % Constants vesselness function
 
-defaultoptions = struct('FrangiScaleRange', [1 10], 'FrangiScaleRatio', 2, 'FrangiAlpha', 0.5, 'FrangiBeta', 0.5, 'FrangiC', 500, 'verbose',true,'BlackWhite',true);
+defaultoptions = struct('FrangiScaleRange', [1 10], 'FrangiScaleRatio', 2, 'FrangiAlpha', 0.5, 'FrangiBeta', 0.5, 'FrangiC', 500, 'verbose',false,'BlackWhite',false);
 
 % Process inputs
 if(~exist('options','var')), 
@@ -126,7 +126,7 @@ for i = 1:length(sigmas),
     expRa = (1-exp(-(Ra.^2./A)));
     expRb =    exp(-(Rb.^2./B));
     expS  = (1-exp(-S.^2./(2*options.FrangiC^2)));
-    keyboard
+%     keyboard
     % Free memory
     clear S A B C Ra Rb
 
