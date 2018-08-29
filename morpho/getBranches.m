@@ -1,4 +1,4 @@
-function [branch,list] = getBranches(G)
+function [branch,list] = getBranches(G,rootnode)
 %GETBRANCHES Given directed graph G, returns list of branch segments
 % 
 % [OUTPUTARGS] = GETBRANCHES(INPUTARGS) Explain usage here
@@ -16,8 +16,13 @@ function [branch,list] = getBranches(G)
 % $Author: base $	$Date: 2015/10/21 17:00:54 $	$Revision: 0.1 $
 % Copyright: HHMI 2015
 
+% force lower triangle
+G = G.*tril(G,-1);
+
 % critical nodes
-rootnode = find(sum(G,2)==0);
+if nargin<2
+    rootnode = find(sum(G,2)==0);
+end
 branchnodes = find(sum(G)>1);
 % root is branch if it splits into 3
 if sum(G(:,rootnode))<3
