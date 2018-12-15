@@ -34,11 +34,12 @@ parfor idxC = 1:S
     parfor_progress;
     indsC = CompsC{idxC};
     subs_ = subs(indsC,:);
-    if length(indsC)<500 % x100 faster for large A & small |indsC|
+    if length(indsC)<500 & 0 % x100 faster for large A & small |indsC|
         [aa,bb]=ndgrid(indsC,indsC);
         A_ = reshape(A(sub2ind(size(A),aa(:),bb(:))),length(indsC),length(indsC));
     else
-        A_ = A(indsC,indsC);
+        A_ = A(indsC,:);
+        A_ = A_(:,indsC);
     end
     if nnz(A_)/2>size(A_,1)-1
         % there is a loop        % check for small loops
@@ -51,37 +52,6 @@ parfor_progress(0);
 deleteedges = cat(1,deleteedges{:});
 delthese = [deletethese{:}];
 toc
-% %%
-% [A_,subs_] = deal([]);
-% parfor idxC = 1:S
-%     if ~rem(idxC,round(S/100))
-%         idxC
-%     end
-%     indsC = CompsC{idxC};
-%     if length(indsC)<500 % x100 faster
-% %         tic
-%         [aa,bb]=ndgrid(indsC,indsC);
-%         A_{idxC} = reshape(A(sub2ind(size(A),aa(:),bb(:))),length(indsC),length(indsC));
-% %         toc1 = toc;
-%     else
-% %         tic
-%         A_{idxC} = A(indsC,indsC);
-% %         toc2 = toc;
-%     end
-%     subs_{idxC} = subs(indsC,:);
-% end
-% %%
-% parfor idxC = 1:S
-%     indsC = CompsC{idxC};
-%     if nnz(A_)/2>size(A_,1)-1
-%         % there is a loop        % check for small loops
-%         [inds,edges] = graphfuncs.findloops(A_{idxC},subs_{idxC});
-%         if any(inds); delinds = indsC(inds); deletethese{idxC} = delinds; end
-%         if any(edges) deledges = indsC(edges); deleteedges{idxC} = deledges; end
-%     end
-% end
-% deleteedges = cat(1,deleteedges{:});
-% delthese = [deletethese{:}];
 
 %%
 if ~isempty(deleteedges)
