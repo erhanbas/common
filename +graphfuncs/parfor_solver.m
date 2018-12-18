@@ -7,7 +7,7 @@ neig_size=cellfun(@length,nodeBrid);
 try parfor_progress(0);catch;end
 parfor_progress(numbr)
 tic
-for ibr=1:numbr
+parfor ibr=1:numbr
     %%
     from = ibr;
     inds=[Idx{(ibr-1)*2+1:ibr*2}]; % all nodes around two tips
