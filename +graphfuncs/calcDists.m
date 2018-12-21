@@ -9,7 +9,6 @@ num_edges = length(ix);
 warning off
 w=zeros(num_edges,4);
 conn=zeros(num_edges,1);
-tic
 parfor idx=1:num_edges
     br1 = branches(ix(idx)).inds;%path;
     sub1 = branches(ix(idx)).subs;%subs(br1,:);
@@ -45,7 +44,6 @@ parfor idx=1:num_edges
         conn(idx,:) = type;
     end
 end
-toc
 warning on
 
 %%

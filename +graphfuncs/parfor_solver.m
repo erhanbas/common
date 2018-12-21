@@ -4,9 +4,9 @@ numbr = length(Idx)/2;
 mylist = cell(numbr,1);
 neig_size=cellfun(@length,nodeBrid);
 %%
-try parfor_progress(0);catch;end
-parfor_progress(numbr)
-tic
+% try parfor_progress(0);catch;end
+% parfor_progress(numbr)
+% tic
 parfor ibr=1:numbr
     %%
     from = ibr;
@@ -31,10 +31,10 @@ parfor ibr=1:numbr
     dfromto(dfromto==0) = eps;
     to(to==from)=[];
     mylist{ibr} = [from*ones(length(to),1) to(:) dfromto(:)];
-    parfor_progress;
+%     parfor_progress;
 end
-parfor_progress(0)
-sprintf('Branch-Con DONE in %d sec',round(toc))
+% parfor_progress(0)
+% sprintf('Branch-Con DONE in %d sec',round(toc))
 
 
 

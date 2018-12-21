@@ -23,13 +23,9 @@ tipids = zeros(S,2);
 br=[];
 iter=1;
 for ii=1:S
-    if S>10 & ~rem(ii,round(S/10))
-%         ii
-    end
     inds = CompsC{ii};
-    if length(inds())<2
+    if length(inds(:))<2
         % skip
-        %         break
         continue
     end
     A_ = A(inds,inds);

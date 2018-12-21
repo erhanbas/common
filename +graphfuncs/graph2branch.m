@@ -30,19 +30,11 @@ juncnodes = find(sum(G.adjacency,2)>2);
 cricset=union(leafnodes,juncnodes);
 %%
 clear Gcomps BR;
-mytic = tic;
-try;parfor_progress(0);catch;end
-tic
-parfor_progress(S)
 parfor idxC = 1:S
-    parfor_progress;
     A_ = A(CompsC{idxC},CompsC{idxC});
     subs_ = subs(CompsC{idxC},:);
     BR{idxC} = graphfuncs.findbranch(A_,subs_);
 end
-parfor_progress(0);
-sprintf('branches found in %d sec for %d comps',round(toc(mytic)),S)
-
 %%
 branches = [];
 nodeBrid = cell(1,numnodes);
